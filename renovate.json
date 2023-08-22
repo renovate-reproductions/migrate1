@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Default preset for use with containerbase's repos",
   "extends": [
-    "config:base",
+    "config:recommended",
     ":maintainLockFilesWeekly",
     ":semanticCommits",
     ":semanticCommitScope(deps)",
@@ -11,13 +11,18 @@
     "group:linters",
     "helpers:pinGitHubActionDigests"
   ],
-  "assignees": ["rarkins", "viceice"],
+  "assignees": [
+    "rarkins",
+    "viceice"
+  ],
   "automergeType": "branch",
   "dependencyDashboard": true,
   "configMigration": true,
   "prCreation": "not-pending",
   "separateMajorMinor": true,
-  "postUpdateOptions": ["yarnDedupeHighest"],
+  "postUpdateOptions": [
+    "yarnDedupeHighest"
+  ],
   "regex": {
     "pinDigests": false
   },
@@ -29,30 +34,48 @@
         "^(?:ghcr.io/)?containerbase/base$",
         "^@renovatebot/"
       ],
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "dependencyDashboardApproval": true
     },
     {
       "description": "Don't require dashboard approval for major github action updates",
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["major"],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "dependencyDashboardApproval": false
     },
     {
       "description": "Automerge non-major updates",
-      "matchUpdateTypes": ["minor", "patch", "digest", "lockFileMaintenance"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest",
+        "lockFileMaintenance"
+      ],
       "automerge": true
     },
     {
       "description": "v prefix workaround for action updates",
-      "matchDepTypes": ["action"],
+      "matchDepTypes": [
+        "action"
+      ],
       "extractVersion": "^(?<version>v\\d+\\.\\d+\\.\\d+)$",
       "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
     },
     {
       "description": "Group prettier packages",
-      "matchPackageNames": ["prettier"],
-      "matchPackagePatterns": ["^@prettier/", "^prettier-plugin-"],
+      "matchPackageNames": [
+        "prettier"
+      ],
+      "matchPackagePatterns": [
+        "^@prettier/",
+        "^prettier-plugin-"
+      ],
       "groupName": "prettier packages"
     },
     {
@@ -61,10 +84,14 @@
         "renovate/renovate",
         "ghcr.io/renovatebot/renovate"
       ],
-      "matchPaths": ["**/*.md"],
-      "extends": ["schedule:weekly"],
+      "matchFileNames": [
+        "**/*.md"
+      ],
+      "extends": [
+        "schedule:weekly"
+      ],
       "automerge": true,
-      "stabilityDays": 0,
+      "minimumReleaseAge": null,
       "commitMessageTopic": "references to {{{depName}}}",
       "semanticCommitType": "docs",
       "semanticCommitScope": null,
@@ -72,15 +99,26 @@
     },
     {
       "description": "Disable Ubuntu minor updates",
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["amd64/ubuntu", "ubuntu"],
-      "matchUpdateTypes": ["minor"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "amd64/ubuntu",
+        "ubuntu"
+      ],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "enabled": false
     },
     {
       "description": "Group Renovate Buildpack and Ubuntu digest updates with themselves",
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["digest"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "matchPackageNames": [
         "ubuntu",
         "containerbase/base",
@@ -91,36 +129,58 @@
     },
     {
       "description": "One week stability period for npm packages except Renovate",
-      "matchDatasources": ["npm"],
-      "excludePackageNames": ["renovate"],
-      "stabilityDays": 7
+      "matchDatasources": [
+        "npm"
+      ],
+      "excludePackageNames": [
+        "renovate"
+      ],
+      "minimumReleaseAge": "7 days"
     },
     {
       "description": "Require approval for aws-sdk as it updates too often",
-      "matchDatasources": ["npm"],
-      "matchPackageNames": ["aws-sdk"],
-      "matchPackagePatterns": ["^@aws-sdk/"],
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchPackageNames": [
+        "aws-sdk"
+      ],
+      "matchPackagePatterns": [
+        "^@aws-sdk/"
+      ],
       "dependencyDashboardApproval": true
     },
     {
       "description": "Only patch updates on renovate rebuild trigger files",
-      "matchFiles": ["renovate.Dockerfile"],
+      "matchFileNames": [
+        "renovate.Dockerfile"
+      ],
       "separateMinorPatch": true
     },
     {
       "description": "Use node versioning for containerbase node",
-      "matchPackageNames": ["containerbase/node", "ghcr.io/containerbase/node"],
+      "matchPackageNames": [
+        "containerbase/node",
+        "ghcr.io/containerbase/node"
+      ],
       "versioning": "node"
     },
     {
       "description": "Only patch updates on renovate rebuild trigger files",
-      "matchFiles": ["renovate.Dockerfile"],
-      "matchUpdateTypes": ["major", "minor"],
+      "matchFileNames": [
+        "renovate.Dockerfile"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor"
+      ],
       "enabled": false
     },
     {
       "description": "Trigger fix release for buildpack updates",
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "matchPackageNames": [
         "containerbase/base",
         "ghcr.io/containerbase/base"
@@ -129,38 +189,54 @@
     },
     {
       "description": "Handle tag prefix in kustomize monorepo",
-      "matchPackageNames": ["kubernetes-sigs/kustomize"],
+      "matchPackageNames": [
+        "kubernetes-sigs/kustomize"
+      ],
       "extractVersion": "^kustomize/v(?<version>.*)$"
     },
     {
       "description": "use build semanctic type for some deps",
-      "matchDatasources": ["npm"],
+      "matchDatasources": [
+        "npm"
+      ],
       "matchPackageNames": [
         "@vercel/ncc",
         "conventional-changelog-conventionalcommits",
         "semantic-release",
         "typescript"
       ],
-      "matchPackagePrefixes": ["@semantic-release/"],
+      "matchPackagePrefixes": [
+        "@semantic-release/"
+      ],
       "semanticCommitType": "build"
     },
     {
       "description": "use ci semanctic type for some deps",
-      "matchPaths": [".github/workflows/**", ".github/actions/**"],
+      "matchFileNames": [
+        ".github/workflows/**",
+        ".github/actions/**"
+      ],
       "semanticCommitType": "ci",
       "additionalBranchPrefix": "ci-"
     },
     {
       "description": "don't pin our node devcontainer digest",
-      "matchFiles": [".devcontainer/Dockerfile"],
-      "matchPackageNames": ["ghcr.io/containerbase/node"],
+      "matchFileNames": [
+        ".devcontainer/Dockerfile"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/containerbase/node"
+      ],
       "pinDigests": false
     }
   ],
   "regexManagers": [
     {
+      "customType": "regex",
       "description": "Update Renovate references in Markdown files",
-      "fileMatch": ["\\.md$"],
+      "fileMatch": [
+        "\\.md$"
+      ],
       "matchStrings": [
         "(?<depName>renovate/renovate):(?<currentValue>[a-z0-9.-]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"
       ],
@@ -168,32 +244,47 @@
       "versioningTemplate": "docker"
     },
     {
+      "customType": "regex",
       "description": "Update _VERSION variables in Dockerfiles",
-      "fileMatch": ["(^|/|\\.)Dockerfile$", "(^|/)Dockerfile\\.[^/]*$"],
+      "fileMatch": [
+        "(^|/|\\.)Dockerfile$",
+        "(^|/)Dockerfile\\.[^/]*$"
+      ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>.+?)(?: (?:packageName|lookupName)=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?<currentValue>.+?)\\s"
       ],
       "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
     },
     {
+      "customType": "regex",
       "description": "Update install-* Buildpack commands in Dockerfiles",
-      "fileMatch": ["(^|/|\\.)Dockerfile$", "(^|/)Dockerfile\\.[^/]*$"],
+      "fileMatch": [
+        "(^|/|\\.)Dockerfile$",
+        "(^|/)Dockerfile\\.[^/]*$"
+      ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?)(?: (?:packageName|lookupName)=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\sRUN install-[a-z]+? (?<depName>[a-z-]+?) (?<currentValue>.+?)\\s"
       ],
       "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
     },
     {
+      "customType": "regex",
       "description": "Update _VERSION variables in shell and bats scripts",
-      "fileMatch": ["\\.sh$", "\\.bats$"],
+      "fileMatch": [
+        "\\.sh$",
+        "\\.bats$"
+      ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>.+?)(?: (?:packageName|lookupName)=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s+[A-Z_]+?_VERSION=(?<currentValue>.+?)\\s"
       ],
       "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
     },
     {
+      "customType": "regex",
       "description": "Update `version:` and `_VERSION:` variables in github workflows",
-      "fileMatch": ["^\\.github/workflows/[^/]+\\.ya?ml$"],
+      "fileMatch": [
+        "^\\.github/workflows/[^/]+\\.ya?ml$"
+      ],
       "matchStrings": [
         "\\s+version: (?<currentValue>.+?) # renovate: datasource=(?<datasource>.+?) depName=(?<depName>.+?)(?: (?:packageName|lookupName)=(?<packageName>.+?))?(?: versioning=(?<versioning>.+?))?\\s",
         "\\s*[A-Z_]+?_VERSION: (?<currentValue>.+?) # renovate: datasource=(?<datasource>.+?) depName=(?<depName>.+?)(?: (?:packageName|lookupName)=(?<packageName>.+?))?(?: versioning=(?<versioning>.+?))?\\s"
